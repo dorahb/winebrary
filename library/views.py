@@ -3,4 +3,4 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-  return HttpResponse ('Hey there, welcome to The Winebrary.')
+    return render(request,'profile.html')
