@@ -8,5 +8,8 @@ def index(request):
 def profile(request):
     return render(request, 'profile.html')
 
+def book(request):
+    return render(request, 'book.html')
+
 def search(request):
     return render(request, 'search.html')
