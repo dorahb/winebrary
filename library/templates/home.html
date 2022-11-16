@@ -1,11 +1,12 @@
 {%extends 'index.html'%}
 {% load static %}
-{% load bootstrap3%}
+{% load bootstrap3 %}
 {% block content%}
 
 {% block navbar %}
     {% include 'navbar.html' %}
 {% endblock %}
+
 
 
 <div class="container-fluid">
@@ -38,31 +39,40 @@
 
 <div class="container display-section">
     <div>
-        <p class="text-center m-5">FEATURED SITES:</p>
+        <h2 class="text-center m-5">FEATURED BOOKS:</h2>
     </div>
-        <div class="row">
-
+    <div class="row">
         {% for book in books %}
 
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="card">
-                <a href="{% url 'book' }"><img class="card-img-top" src="{{book.imageURL}}"
-                        alt="Card image cap"></a>
-                <div class="card-body">
-                    <p class="card-title">{{book.title}}</p>
-                    <div class="d-flex justify-content-between">
-                        <p style="font-weight: normal;" class="card-text">From {{book.location}} </p>
-                        <p style="font-weight: normal;">{{book.pub_date}}</p>
+        <div class="col-lg-4 col-md-6 col-sm-12 text-center display-area">   
+            <a href="" data-toggle="modal" data-target="#myModal{{ book.id }}"><img
+                    src="{{book.imageURL}}" class="uploaded-pics" alt="Image"> </a> 
+                    <h6><strong>{{book.title}}</strong></h6>
+                    <p>by: {{book.author}}</p>
+       
+        <div id="myModal{{book.id}}" class="modal fade" role="dialog" style="color:000">
+            <div class="modal-dialog">
+                <div class="modal-content mbody w3-black">
+                  <strong><br>
+                    <p> {{book.title}} </p>
+                 </strong><hr>
+                    <div class="modal-body p-2">
+                        <img src="{{book.imageURL}}" style="width:auto; max-height:300px"><hr>
+                        <strong>
+                          <p>{{book.author}} </p>
+                      </strong>         
+                        <p>{{book.synopsis}}</p>
                     </div>
+                    <footer>
+                        <a target="_blank" class="btn btn-primary caro-btn"href="{% url 'profile' %}">Swap Book</a>                  </div>
+                    </footer>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">By {{book.user}}</li>
-                </ul>
-
             </div>
         </div>
+
+    
         {% endfor %}
-    </div>
+      </div>
 </div>
 
 

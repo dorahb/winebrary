@@ -1,4 +1,48 @@
+@import url('https://fonts.googleapis.com/');
+
 *{
-  font-family: 'Merriweather', serif;
+
+  font-family: 'Ubuntu';
+
 }
+
+.container-fluid{
+  margin: 0px;
+  padding:0px ;
+}
+.caro-img {
+  height: 80vh;
+  font-size: 30px;
+  border-radius: 10px;
+  border: 2.5px solid white;
+
+}
+
+
+.uploaded-pics {
+  object-fit: cover;
+  height: 300px;
+  width: 290px;
+  border-radius: 10%;
+  box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 22px 0 rgba(0, 0, 0, 0.19);
+}
+
+.uploaded-pics:hover {
+  border: 2.5px solid white;
+  transition: 200ms;
+}
+
+.display-area {
+  padding: 2%;
+
+}
+
+.btn-modal {
+  width: 25%;
+  color: white;
+  font-size: smaller;
+  margin: 2%;
+}
+
+ 
 

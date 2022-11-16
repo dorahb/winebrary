@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import *
 
 # Create your views here.
 def index(request):
-    return render(request,'home.html')
+    books = Book.objects.all
+    context = {'books':books}
+    return render(request,'home.html',context)
 
 def profile(request):
     return render(request, 'profile.html')
