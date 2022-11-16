@@ -1,1 +1,11 @@
-<h1>Login is working </h1>
+{%extends 'index.html'%}
+{% load bootstrap3 %}
+{% load static %}
+{% block content %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+<h2>Login is working</h2>
+
+{% endblock %}

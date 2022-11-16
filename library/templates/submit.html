@@ -1,0 +1,37 @@
+{%extends 'index.html'%}
+{% load bootstrap3 %}
+{% load static %}
+{% block content %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+<div class="container">
+  <div class="row">
+    
+    <body class="sub" style="background-image:url(/static/images/gift.avif)" height="100vh" >
+
+       <div class="col-lg-6 col-md-6 col-sm-6">
+  
+       
+          <h3 class="profile-text">“Books should go where they will be most appreciated, and not sit unread, gathering dust on a forgotten shelf, don't you agree?” ― Christopher Paolini</h3>
+       </div>
+       <div class="col-lg-6 col-md-6 col-sm-6">
+          <div class="sub-body">
+              <form action="{% url 'submit'%}" method="post" enctype="multipart/form-data">
+                  {% csrf_token%}
+                  {% bootstrap_form form %}
+                  <div class="form-group text-center">
+                      <input type="submit" class="m-4 btn btn-primary login-btn" value="Upload your book!">
+                  </div>
+                  <input type="hidden" name="next" value="{{next}}">
+              </form>
+          </div>
+       </div>
+      </body>
+  </div>
+
+</div>
+
+{% endblock %}
