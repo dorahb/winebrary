@@ -48,19 +48,22 @@
             <a href="" data-toggle="modal" data-target="#myModal{{ book.id }}"><img
                     src="{{book.imageURL}}" class="uploaded-pics" alt="Image"> </a> 
                     <h6><strong>{{book.title}}</strong></h6>
-                    <p>by: {{book.author}}</p>
+                    <p>Uploaded by: {{book.user}} </p>
+                    
+                    
        
         <div id="myModal{{book.id}}" class="modal fade" role="dialog" style="color:000">
             <div class="modal-dialog">
                 <div class="modal-content mbody w3-black">
                   <strong><br>
                     <p> {{book.title}} </p>
+                    <p> 📍 {{book.location}} </p>
                  </strong><hr>
                     <div class="modal-body p-2">
                         <img src="{{book.imageURL}}" style="width:auto; max-height:300px"><hr>
                         <strong>
-                          <p>{{book.author}} </p>
-                      </strong>         
+                            <p>By: {{book.author}}</p>
+                      </strong>      
                         <p>{{book.synopsis}}</p>
                     </div>
                     <footer>
