@@ -1,16 +1,31 @@
+from .models import Profile, Book
+from django.contrib.auth.forms import UserCreationForm
+from django.forms import ModelForm
+from django.contrib.auth.models import User
 from django import forms
 
-from .models import Profile, Book
 
 
 class ProfileForm(forms.ModelForm):
   
     class Meta:
         model = Profile
-        fields=['name','profilepic','email','bio'] 
+        fields= '__all__' 
 
 class BookForm(forms.ModelForm):
-  
     class Meta:
         model = Book
-        fields=['image','title','author','synopsis','location'] 
+        exclude = ('user',)
+        fields= '__all__' 
+
+class CreateUserForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    def clean_email(self):
+        if User.objects.filter(email=self.cleaned_data['email']).exists():
+            raise forms.ValidationError("the given email is already registered")
+        return self.cleaned_data['email']
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
