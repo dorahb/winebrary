@@ -1,0 +1,36 @@
+{%extends 'index.html'%}
+{% load bootstrap3 %}
+{% load static %}
+{% block content %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+
+<div class="container">
+  <div class="row">
+    <body class="sub" style="background-image:url(/static/images/BCG1.avif)" height="100vh" >
+       <div class="col-lg-6 col-md-6 col-sm-6">
+          <h4 class="profile-text">“The more that you read, the more things you will know. The more that you learn, the more places you will go.” <br> ―Dr. Seuss</h3>
+       </div>
+       <div class="col-lg-6 col-md-6 col-sm-6">
+          <div class="sub-body">
+            <br> <br>
+              <form action=" {% url 'updateprofile'%}" method="POST" enctype="multipart/form-data">
+                  {% csrf_token%}
+                  {% bootstrap_form form %}
+                  <div class="form-group text-center">
+                      <input type="submit" class="m-4 btn btn-primary login-btn" value="Update your profile!">
+                  </div>
+              </form>
+          </div>
+       </div>
+      </body>
+  </div>
+</div>
+
+
+
+
+{% endblock %}

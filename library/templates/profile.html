@@ -25,7 +25,7 @@
                 <p>{{profile.email}}</p>
                 <button type="button" class="btn btn-outline-light" data-mdb-ripple-color="dark"
                 style="z-index: 1;">
-                Edit profile
+                <a href="{% url 'updateprofile' %}"> Edit profile </a> 
               </button>
               </div>
             </div>
@@ -45,6 +45,7 @@
 
               <div class="mb-5">
                 <p class="text-center lead fw-normal mb-1">Wishlist</p>
+
                 {% for wishlist in wishlists %}
                 <div  style="background-color: #f8f9fa;">
                   

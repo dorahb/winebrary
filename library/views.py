@@ -21,6 +21,17 @@ def profile(request):
     books =Book.objects.filter(user_id = current_user.id).all()
     wishlist = Wishlist.objects.filter(user_id = current_user.id).all()
 
+
+    
+    print ('here is our user')
+    print (current_user)
+
+    print ('here is their wishlist')
+    print (wishlist)
+    
+    for item in wishlist:
+        print(item.user)
+
     return render(request, 'profile.html', {"current_user":current_user,"books":books,"wishlists":wishlist, "profiles":profiles})
 
 def book(request):
@@ -28,6 +39,22 @@ def book(request):
 
 def search(request):
     return render(request, 'search.html')
+
+@login_required(login_url='login')
+def updateprofile(request):
+    current_user = request.user
+    form = ProfileForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        if form.is_valid():
+            profile = form.save(commit=False)
+        profile.user = request.user
+        profile.save()
+        return redirect ('index')
+    
+    else:
+        form = ProfileForm()
+
+    return render(request, 'updateprofile.html', {'form': form})
 
 @login_required(login_url='login')
 def submit(request):
@@ -64,7 +91,7 @@ def signup(request):
                 messages.success(request,'An account for ' + user + ' was successfully created')
 
 
-                return redirect('login')
+            return redirect('updateprofile')
 
 
     context = {'form': form}
