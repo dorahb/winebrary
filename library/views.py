@@ -6,6 +6,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login ,logout 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.views.generic import ListView
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from django.views.generic import ListView
+
 
 
 # Create your views here.
@@ -20,7 +26,6 @@ def profile(request):
     profiles = Profile.objects.filter(user_id = current_user.id).all()
     books =Book.objects.filter(user_id = current_user.id).all()
     wishlist = Wishlist.objects.filter(user_id = current_user.id).all()
-
 
     
     print ('here is our user')
@@ -37,8 +42,39 @@ def profile(request):
 def book(request):
     return render(request, 'book.html')
 
-def search(request):
-    return render(request, 'search.html')
+def search(Listview):
+    model = Book
+    template_name = 'search.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Book.objects.filter(
+            Q(title__icontains=query) | Q(author__icontains=query)| Q(user__icontains=query)|Q(location__icontains=query)
+        )
+
+        print(object_list)
+
+    return render('search.html', {'object_list': object_list})
+
+
+
+
+    
+
+        
+
+
+    
+
+        
+        
+
+        
+        
+
+    
+
+
 
 @login_required(login_url='login')
 def updateprofile(request):

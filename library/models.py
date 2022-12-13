@@ -30,6 +30,7 @@ class Book(models.Model):
   author = models.CharField(max_length=100)
   synopsis = models.CharField(max_length=1000)
   pub_date = models.DateTimeField(auto_now_add=True)
+  quantity = models.IntegerField(default=1)
   location = models.CharField(max_length=100, default="")
 
   def __str__(self):

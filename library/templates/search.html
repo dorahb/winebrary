@@ -7,6 +7,24 @@
     {% include 'navbar.html' %}
 {% endblock %}
 
-<h1>Search is working </h1>
+<div class="container">
+    <div class="row">
+      <body class="sub" style="background-image:url(/static/images/BCG1.avif)" height="100vh" >
 
-{% endblock %}
+            <h1>Search Results</h1>
+
+            <ul>
+              {% for book in object_list %}
+                <li>
+                  {{ book.title }}, {{ book.author }}, {{ book.user }}, {{ book.location }}
+                </li>
+              {% endfor %}
+            </ul>
+
+
+        </body>
+    </div>
+  </div>
+
+  {% endblock %}
+
