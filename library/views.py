@@ -7,10 +7,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login ,logout 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from django.views.generic import ListView
 import json
 
 
@@ -70,23 +69,23 @@ def updateItem(request):
     return JsonResponse('Item was added', safe=False)
 
 
-    
-
-
-
-def search(Listview):
+class search(ListView):
     model = Book
     template_name = 'search.html'
 
     def get_queryset(self):
         query = self.request.GET.get('q')
         object_list = Book.objects.filter(
-            Q(title__icontains=query) | Q(author__icontains=query)| Q(user__icontains=query)|Q(location__icontains=query)
+            Q(title__icontains=query) | Q(author__icontains=query) 
         )
 
-        print(object_list)
+        
 
-    return render('search.html', {'object_list': object_list})
+        return object_list
+
+   
+
+    
 
 
 @login_required(login_url='login')
@@ -125,7 +124,6 @@ def signup(request):
     if request.user.is_authenticated:
         return redirect('index')
     
-
     else: 
 
         form = CreateUserForm()
@@ -139,8 +137,7 @@ def signup(request):
                 email = form.cleaned_data.get('email')
                 messages.success(request,'An account for ' + user + ' was successfully created')
 
-
-            return redirect('updateprofile')
+                return redirect('login')
 
 
     context = {'form': form}

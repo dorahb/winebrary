@@ -1,12 +1,15 @@
 from django.urls import path
 from . import views
+from .views import search
+
+
 
 
 
 urlpatterns = [
   path('',views.index, name ='index'),
   path('profile/',views.profile, name='profile'),
-  path('search/',views.search, name='search'),
+  path('search/',search.as_view(), name='search'),
   path('submit/',views.submit, name='submit'),
   path('update_item/',views.updateItem, name='update_item'),
   path('login/',views.loginPage, name='login'),
