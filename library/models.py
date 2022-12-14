@@ -56,17 +56,31 @@ class Swap (models.Model):
         return str(self.recipient)
 
 class Wishlist (models.Model):
-  user = models.ForeignKey(Profile, on_delete=models.SET_NULL,null=True, blank=True)
-  book = models.ForeignKey(Book, on_delete=models.SET_NULL,null=True, blank=True)
+  user = models.OneToOneField(Profile, on_delete=models.SET_NULL,null=True, blank=True)
+  date_added = models.DateTimeField(auto_now_add=True)
 
   def __str__(self):
-        return str(self.book)
+        return str(self.id)
+
+class WishlistItem (models.Model):
+  wishlist = models.ForeignKey(Wishlist, on_delete=models.SET_NULL,null=True, blank=True)
+  book = models.ForeignKey(Book, on_delete=models.SET_NULL,null=True, blank=True)
+  quantity = models.IntegerField(default=0, null = True, blank=True)
+  date_added = models.DateTimeField(auto_now_add=True)
+
+
+  def __str__(self):
+        return str(self.wishlist)
+
 
 
 class ShippingAddress (models.Model):
   user = models. ForeignKey(Profile, on_delete=models.SET_NULL,null=True, blank=True)
   swap = models. ForeignKey(Swap, on_delete=models.SET_NULL,null=True, blank=True)
   address = models.CharField(max_length=200,null=False)
+  town = models.CharField(max_length=200,null=False)
+  region = models.CharField(max_length=200,null=False)
+  country = models.CharField(max_length=200,default='SOME STRING')
   date = models.DateTimeField(auto_now_add=True)
  
 

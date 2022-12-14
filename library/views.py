@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import *
 from .forms import CreateUserForm, ProfileForm, BookForm
 from django.contrib.auth.forms import UserCreationForm
@@ -11,6 +11,7 @@ from django.views.generic import ListView
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.views.generic import ListView
+import json
 
 
 
@@ -25,7 +26,10 @@ def profile(request):
     current_user = request.user
     profiles = Profile.objects.filter(user_id = current_user.id).all()
     books =Book.objects.filter(user_id = current_user.id).all()
-    wishlist = Wishlist.objects.filter(user_id = current_user.id).all()
+    wishlist, created = Wishlist.objects.get_or_create(user=current_user.profile) 
+    items = wishlist.wishlistitem_set.all()
+ 
+
 
     
     print ('here is our user')
@@ -34,13 +38,41 @@ def profile(request):
     print ('here is their wishlist')
     print (wishlist)
     
-    for item in wishlist:
-        print(item.user)
+    
+    return render(request, 'profile.html', {"current_user":current_user,"books":books,"items":items, "profiles":profiles})
 
-    return render(request, 'profile.html', {"current_user":current_user,"books":books,"wishlists":wishlist, "profiles":profiles})
+def updateItem(request):
+    data = json.loads(request.body)
+    bookId = data['bookId']
+    action = data['action']
 
-def book(request):
-    return render(request, 'book.html')
+    print('Action:', action)
+    print('Book:', bookId)
+
+
+    profile = request.user.profile
+    book = Book.objects.get(id=bookId)
+
+    wishlist, created = Wishlist.objects.get_or_create(user=profile)
+
+    wishlistItem, created = WishlistItem.objects.get_or_create(wishlist=wishlist, book=book)
+
+    if action == 'add':
+        wishlistItem = (wishlistItem.quantity + 1)
+    elif action == 'remove':
+        wishlistItem.quantity = (wishlistItem.quantity - 1)
+
+        wishlistItem.save()
+
+        if wishlistItem.quantity <= 0:
+            wishlistItem.delete()
+
+    return JsonResponse('Item was added', safe=False)
+
+
+    
+
+
 
 def search(Listview):
     model = Book
@@ -55,25 +87,6 @@ def search(Listview):
         print(object_list)
 
     return render('search.html', {'object_list': object_list})
-
-
-
-
-    
-
-        
-
-
-    
-
-        
-        
-
-        
-        
-
-    
-
 
 
 @login_required(login_url='login')

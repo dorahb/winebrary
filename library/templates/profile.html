@@ -46,12 +46,12 @@
               <div class="mb-5">
                 <p class="text-center lead fw-normal mb-1">Wishlist</p>
 
-                {% for wishlist in wishlists %}
+                {% for item in items %}
                 <div  style="background-color: #f8f9fa;">
                   
                   <ul>
                     <li>
-                      {{wishlist.book}} by <span>{{wishlist.book.author}}</span>
+                      {{item.book.title}} by <span>{{item.book.author}}</span>
                     </li>
                   </ul>
 
