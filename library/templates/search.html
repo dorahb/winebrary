@@ -7,30 +7,59 @@
     {% include 'navbar.html' %}
 {% endblock %}
 
-<div class="container">
-    <div class="row">
-      <body class="sub" style="background-image:url(/static/images/BCG1.avif)" height="100vh" >
-
-            <h1>Search results...</h1>
-
-              {% for book in object_list %}
-
-              <div class="row"> 
-              
-             
-                  <h3>Title : {{ book.title }}, <br>Writen by : {{ book.author}},<br> Uploaded by : {{ book.user }},<br> Who is based in {{ book.location }}</h3>
-                
-
-            </div>  
-            
-              
-              {% endfor %}
-            
 
 
-        </body>
+<div class="container  display-section">
+<div class="search">
+  
+  <div>
+      <h2 class="text-center m-5">Search results:</h2>
+  </div>
+  <div class="row" >
+
+    <body  style="background-image:url(/static/images/ocean.avif)" height="100vh" >
+
+      {% for book in object_list %}
+
+      <div class="col-lg-4 col-md-6 col-sm-12 text-center display-area">   
+          <a href="" data-toggle="modal" data-target="#myModal{{ book.id }}"><img
+                  src="{{book.imageURL}}" class="uploaded-pics" alt="Image"> </a> 
+                  <h6><strong>{{book.title}}</strong></h6>
+                  <p>Uploaded by: {{book.user}} </p>
+                  
+                  
+     
+      <div id="myModal{{book.id}}" class="modal fade" role="dialog" style="color:000">
+          <div class="modal-dialog">
+              <div class="modal-content mbody w3-black">
+                <strong><br>
+                  <p> {{book.title}} </p>
+                  <p> 📍 {{book.location}} </p>
+               </strong><hr>
+                  <div class="modal-body p-2">
+                      <img src="{{book.imageURL}}" style="width:auto; max-height:300px"><hr>
+                      <strong>
+                          <p>By: {{book.author}}</p>
+                    </strong>      
+                      <p>{{book.synopsis}}</p>
+                  </div>
+                  <footer>
+                      <a target="_blank" data-book="{{book.id}}" data-action="add" class="btn btn-primary caro-btn update-wishlist">Add to wishlist</a> 
+                      <a target="_blank"  class="btn btn-primary caro-btn ">Swap Book</a>                  
+                  </div>
+                  </footer>
+              </div>
+          </div>
+      </div>
+
+  
+      {% endfor %}
+
+    </body>
     </div>
   </div>
+</div>
+
 
   {% endblock %}
 
