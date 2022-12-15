@@ -27,26 +27,14 @@ def profile(request):
     books =Book.objects.filter(user_id = current_user.id).all()
     wishlist, created = Wishlist.objects.get_or_create(user=current_user.profile) 
     items = wishlist.wishlistitem_set.all()
- 
-
-
-    
-    print ('here is our user')
-    print (current_user)
-
-    print ('here is their wishlist')
-    print (wishlist)
-    
-    
+        
     return render(request, 'profile.html', {"current_user":current_user,"books":books,"items":items, "profiles":profiles})
+
 
 def updateItem(request):
     data = json.loads(request.body)
     bookId = data['bookId']
     action = data['action']
-
-    print('Action:', action)
-    print('Book:', bookId)
 
 
     profile = request.user.profile
