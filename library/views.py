@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from .models import *
-from .forms import CreateUserForm, ProfileForm, BookForm
+from .forms import  ProfileForm, BookForm,  CreateUserForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login ,logout 
@@ -29,6 +29,9 @@ def profile(request):
     items = wishlist.wishlistitem_set.all()
         
     return render(request, 'profile.html', {"current_user":current_user,"books":books,"items":items, "profiles":profiles})
+
+def swap(request):
+    return render(request, 'swap.html')
 
 
 def updateItem(request):
@@ -64,7 +67,7 @@ class search(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         object_list = Book.objects.filter(
-            Q(title__icontains=query) | Q(author__icontains=query) 
+            Q(title__icontains=query) | Q(author__icontains=query) | Q(synopsis__icontains=query) | Q(user__username__icontains=query) | Q(location__icontains=query) 
         )
 
         
@@ -90,7 +93,9 @@ def updateprofile(request):
     else:
         form = ProfileForm()
 
-    return render(request, 'updateprofile.html', {'form': form})
+    context = {'form': form}
+
+    return render(request, 'updateprofile.html', context)
 
 @login_required(login_url='login')
 def submit(request):
@@ -114,7 +119,7 @@ def signup(request):
     
     else: 
 
-        form = CreateUserForm()
+        form = CreateUserForm(request.POST)
 
         if request.method == 'POST':
             form = CreateUserForm(request.POST)
@@ -126,6 +131,11 @@ def signup(request):
                 messages.success(request,'An account for ' + user + ' was successfully created')
 
                 return redirect('login')
+
+
+
+
+
 
 
     context = {'form': form}
@@ -158,3 +168,6 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+
+

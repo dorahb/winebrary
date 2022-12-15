@@ -2,10 +2,6 @@ from django.urls import path
 from . import views
 from .views import search
 
-
-
-
-
 urlpatterns = [
   path('',views.index, name ='index'),
   path('profile/',views.profile, name='profile'),
@@ -16,5 +12,6 @@ urlpatterns = [
   path('logout/',views.logoutUser, name='logout'),
   path('signup/',views.signup, name='signup'),
   path('updateprofile/',views.updateprofile, name='updateprofile'),
+  path('swap/',views.swap, name='swap'),
 
 ]

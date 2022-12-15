@@ -11,15 +11,21 @@
     <div class="row">
       <body class="sub" style="background-image:url(/static/images/BCG1.avif)" height="100vh" >
 
-            <h1>Search Results</h1>
+            <h1>Search results...</h1>
 
-            <ul>
               {% for book in object_list %}
-                <li>
-                  {{ book.title }}, {{ book.author }}, {{ book.user }}, {{ book.location }}
-                </li>
+
+              <div class="row"> 
+              
+             
+                  <h3>Title : {{ book.title }}, <br>Writen by : {{ book.author}},<br> Uploaded by : {{ book.user }},<br> Who is based in {{ book.location }}</h3>
+                
+
+            </div>  
+            
+              
               {% endfor %}
-            </ul>
+            
 
 
         </body>
