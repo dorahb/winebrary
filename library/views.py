@@ -61,6 +61,7 @@ def updateItem(request):
 
 
 class search(ListView):
+
     model = Book
     template_name = 'search.html'
 
@@ -70,9 +71,10 @@ class search(ListView):
             Q(title__icontains=query) | Q(author__icontains=query) | Q(synopsis__icontains=query) | Q(user__username__icontains=query) | Q(location__icontains=query) 
         )
 
-        
 
         return object_list
+
+    
 
    
 
