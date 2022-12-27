@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.  
 
 class Profile(models.Model):
@@ -10,9 +11,11 @@ class Profile(models.Model):
   email =  models.EmailField(max_length=300)
   bio = models.CharField(max_length=500)
   location = models.CharField(max_length=100, default="")
+  token = models.IntegerField(default=1)
+ 
  
   def __str__(self):
-        return self.name 
+        return str(self.name)
 
   @property
   def profilepicURL(self):
@@ -21,6 +24,7 @@ class Profile(models.Model):
     except:
       url = ''
     return url
+
      
 
 class Book(models.Model):
@@ -31,6 +35,7 @@ class Book(models.Model):
   synopsis = models.CharField(max_length=1000)
   pub_date = models.DateTimeField(auto_now_add=True)
   quantity = models.IntegerField(default=1)
+  amount = models.IntegerField(default=0)
   location = models.CharField(max_length=100, default="")
 
   def __str__(self):
@@ -46,14 +51,22 @@ class Book(models.Model):
   
 
 class Swap (models.Model):
+  user = models.OneToOneField(Profile, on_delete=models.SET_NULL,null=True, blank=True)
+  date_swapped = models.DateTimeField(auto_now_add=True)
+
+
+  def __str__(self):
+        return str(self.id)  
+class SwapItem (models.Model):
+  swap = models.ForeignKey(Swap, on_delete=models.SET_NULL,null=True, blank=True)
   recipient = models.ForeignKey(User, on_delete=models.SET_NULL,null=True, blank=True)
   book = models. ForeignKey(Book, on_delete=models.SET_NULL,null=True, blank=True)
-  date_swapped = models.DateTimeField(auto_now_add=True)
+  quantity = models.IntegerField(default=0, null = True, blank=True)
   complete = models.BooleanField(default=False)
  
  
   def __str__(self):
-        return str(self.recipient)
+        return str(self.swap)
 
 class Wishlist (models.Model):
   user = models.OneToOneField(Profile, on_delete=models.SET_NULL,null=True, blank=True)
@@ -66,7 +79,6 @@ class WishlistItem (models.Model):
   wishlist = models.ForeignKey(Wishlist, on_delete=models.SET_NULL,null=True, blank=True)
   book = models.ForeignKey(Book, on_delete=models.SET_NULL,null=True, blank=True)
   quantity = models.IntegerField(default=0, null = True, blank=True)
-  date_added = models.DateTimeField(auto_now_add=True)
 
 
   def __str__(self):

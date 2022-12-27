@@ -22,7 +22,7 @@
               <div class="ms-3" style="margin-top: 50px;">
 
                 <h5>{{profile.name}}</h5>
-                <p>{{profile.email}}</p>
+                <p>Available tokens: {{profile.token}}</p>
                 <button type="button" class="btn btn-outline-light" data-mdb-ripple-color="dark"
                 style="z-index: 1;">
                 <a href="{% url 'updateprofile' %}"> Edit profile </a> 
@@ -46,12 +46,12 @@
               <div class="mb-5">
                 <p class="text-center lead fw-normal mb-1">Wishlist</p>
 
-                {% for item in items %}
+                {% for wishitem in wishitems %}
                 <div  style="background-color: #f8f9fa;">
                   
                   <ul>
                     <li>
-                      {{item.book.title}} by <span>{{item.book.author}}</span>
+                      {{wishitem.book.title}} by <span>{{wishitem.book.author}}</span>
                     </li>
                   </ul>
 

@@ -25,39 +25,71 @@ def profile(request):
     current_user = request.user
     profiles = Profile.objects.filter(user_id = current_user.id).all()
     books =Book.objects.filter(user_id = current_user.id).all()
-    wishlist, created = Wishlist.objects.get_or_create(user=current_user.profile) 
-    items = wishlist.wishlistitem_set.all()
+    wishlist, created = Wishlist.objects.get_or_create(user=current_user.profile)
+    wishitems = wishlist.wishlistitem_set.all()
         
-    return render(request, 'profile.html', {"current_user":current_user,"books":books,"items":items, "profiles":profiles})
+    return render(request, 'profile.html', {"current_user":current_user,"books":books,"wishitems":wishitems, "profiles":profiles})
 
+@login_required(login_url='login')
 def swap(request):
-    return render(request, 'swap.html')
+    current_user = request.user
+    profiles = Profile.objects.filter(user_id = current_user.id).all()
+    books =Book.objects.filter(user_id = current_user.id).all()
+    swap, created = Swap.objects.get_or_create(user=current_user.profile)
+    swapitems = swap.swapitem_set.all()
+        
+    return render(request, 'swap.html', {"current_user":current_user,"swapitems":swapitems,"books":books})
+    
+def updateSwap(request):
+    data = json.loads(request.body)
+    bookId = data['bookId']
+    action = data['action']
+    profile = request.user.profile
+    book = Book.objects.get(id=bookId)
 
+    swap, created = Swap.objects.get_or_create(user=profile)
+
+    swapItem, created =SwapItem.objects.get_or_create(swap=swap, book=book)
+
+    if action == 'add':
+        swapItem = (swapItem.quantity + 1)
+         
+    elif action == 'remove':
+        swapItem.quantity = (swapItem.quantity - 1)
+
+        swapItem.save()
+
+        if swapItem.quantity <= 0:
+            swapItem.delete()
+
+    return JsonResponse('Item was added', safe=False)
 
 def updateItem(request):
     data = json.loads(request.body)
     bookId = data['bookId']
     action = data['action']
-
-
     profile = request.user.profile
     book = Book.objects.get(id=bookId)
+
 
     wishlist, created = Wishlist.objects.get_or_create(user=profile)
 
     wishlistItem, created = WishlistItem.objects.get_or_create(wishlist=wishlist, book=book)
 
     if action == 'add':
-        wishlistItem = (wishlistItem.quantity + 1)
+        wishlistItem = (wishlistItem.quantity + 1)   
+        
     elif action == 'remove':
         wishlistItem.quantity = (wishlistItem.quantity - 1)
-
+        
         wishlistItem.save()
-
+        
         if wishlistItem.quantity <= 0:
             wishlistItem.delete()
 
+
     return JsonResponse('Item was added', safe=False)
+
 
 
 class search(ListView):
@@ -75,11 +107,6 @@ class search(ListView):
         return object_list
 
     
-
-   
-
-    
-
 
 @login_required(login_url='login')
 def updateprofile(request):
