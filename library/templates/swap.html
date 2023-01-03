@@ -64,7 +64,6 @@
          
           {% endfor %}
 
-         
 
         </div>
       </div>
@@ -108,24 +107,28 @@
           <ul class="list-group list-group-flush">
             <li
             class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-            Title:
-            <span>{{swapitem.book.title}} </span>
+            Book:
+            <span>{{swapitem.book.title}} : ({{swapitem.book.amount}}) tokens</span>
           </li>
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-              Total:
-              <span>{{swapitem.book.amount}} </span>
-            </li>
+  
+            {% endfor %}
+
             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
               Shipping:
+              <span>Gratis</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+              Total tokens:
               <span>Gratis</span>
             </li>
             <button type="button" class="btn btn-primary btn-lg btn-block">
               Checkout
             </button>
           </ul>
-          {% endfor %}
+      
         </div>
+        
       </div>
     </div>
   </div>
