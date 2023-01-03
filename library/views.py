@@ -11,6 +11,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 import json
+from django.views.generic.edit import UpdateView
 
 
 
@@ -103,7 +104,6 @@ class search(ListView):
             Q(title__icontains=query) | Q(author__icontains=query) | Q(synopsis__icontains=query) | Q(user__username__icontains=query) | Q(location__icontains=query) 
         )
 
-
         return object_list
 
     
@@ -111,20 +111,18 @@ class search(ListView):
 @login_required(login_url='login')
 def updateprofile(request):
     current_user = request.user
-    form = ProfileForm(request.POST, request.FILES)
+    profiles = Profile.objects.filter(user_id = current_user.id).all()
+    books =Book.objects.filter(user_id = current_user.id).all()
+    wishlist, created = Wishlist.objects.get_or_create(user=current_user.profile)
+    wishitems = wishlist.wishlistitem_set.all()
     if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
-            profile = form.save(commit=False)
-        profile.user = request.user
-        profile.save()
-        return redirect ('index')
-    
+            form.save()
+            return redirect('profile')
     else:
-        form = ProfileForm()
-
-    context = {'form': form}
-
-    return render(request, 'updateprofile.html', context)
+        form = ProfileForm(instance=request.user.profile)
+    return render(request, 'updateprofile.html', {"current_user":current_user,"books":books,"wishitems":wishitems, "profiles":profiles, 'form':form})
 
 @login_required(login_url='login')
 def submit(request):
@@ -160,12 +158,6 @@ def signup(request):
                 messages.success(request,'An account for ' + user + ' was successfully created')
 
                 return redirect('login')
-
-
-
-
-
-
 
     context = {'form': form}
     return render (request, 'registration/signup.html', context)
