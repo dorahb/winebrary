@@ -62,9 +62,7 @@ class Swap (models.Model):
       if i.book.amount > 0:
         shipping = True
     return shipping
-
-
-
+    
   def __str__(self):
         return str(self.id)  
 class SwapItem (models.Model):
