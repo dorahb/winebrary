@@ -37,10 +37,10 @@ def swap(request):
     profiles = Profile.objects.filter(user_id = current_user.id).all()
     books =Book.objects.filter(user_id = current_user.id).all()
     swap, created = Swap.objects.get_or_create(user=current_user.profile)
-    swapitems = swap.swapitem_set.all()
+    items = swap.swapitem_set.all()
 
 
-    return render(request, 'swap.html', {"current_user":current_user,"swapitems":swapitems,"books":books})
+    return render(request, 'swap.html', {"current_user":current_user,"items":items,"books":books, swap:swap, "profiles":profiles, items:items})
     
 def updateSwap(request):
     data = json.loads(request.body)

@@ -54,6 +54,22 @@ class Swap (models.Model):
   user = models.OneToOneField(Profile, on_delete=models.SET_NULL,null=True, blank=True)
   date_swapped = models.DateTimeField(auto_now_add=True)
 
+
+  @property
+  def get_cart_total(self):
+    swapitems = self.swapitem_set.all()
+    total = sum([item.get_total for item in swapitems])
+    return total
+
+  print("hello",get_cart_total)
+
+
+  @property
+  def get_cart_items(self):
+    swapitems = self.swapitem_set.all()
+    total = sum([item.quantity for item in swapitems])
+    return total
+
   @property
   def shipping(self):
     shipping = False
@@ -77,6 +93,9 @@ class SwapItem (models.Model):
   def get_total(self):
     total = self.book.amount 
     return total
+
+
+  
 
 
    
