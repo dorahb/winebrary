@@ -35,7 +35,7 @@ class Book(models.Model):
   synopsis = models.CharField(max_length=1000)
   pub_date = models.DateTimeField(auto_now_add=True)
   quantity = models.IntegerField(default=1, editable=False)
-  amount = models.IntegerField(default=0)
+  amount = models.IntegerField(default=1)
   location = models.CharField(max_length=100, default="")
 
   def __str__(self):
@@ -55,13 +55,17 @@ class Swap (models.Model):
   date_swapped = models.DateTimeField(auto_now_add=True)
 
 
+  def __str__(self):
+        return str(self.id)  
+ 
+ 
+
   @property
   def get_cart_total(self):
     swapitems = self.swapitem_set.all()
     total = sum([item.get_total for item in swapitems])
     return total
-
-  print("hello",get_cart_total)
+  
 
 
   @property
@@ -70,17 +74,11 @@ class Swap (models.Model):
     total = sum([item.quantity for item in swapitems])
     return total
 
-  @property
-  def shipping(self):
-    shipping = False
-    swapitems = self.swapitem_set.all()
-    for i in swapitems:
-      if i.book.amount > 0:
-        shipping = True
-    return shipping
+ 
+
+
     
-  def __str__(self):
-        return str(self.id)  
+ 
 class SwapItem (models.Model):
   swap = models.ForeignKey(Swap, on_delete=models.SET_NULL,null=True, blank=True)
   recipient = models.ForeignKey(User, on_delete=models.SET_NULL,null=True, blank=True)
@@ -91,14 +89,11 @@ class SwapItem (models.Model):
  
   @property
   def get_total(self):
-    total = self.book.amount 
+    total = self.book.amount * self.quantity
     return total
 
 
-  
-
-
-   
+ 
 
 class Wishlist (models.Model):
   user = models.OneToOneField(Profile, on_delete=models.SET_NULL,null=True, blank=True)

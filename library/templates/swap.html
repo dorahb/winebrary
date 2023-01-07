@@ -58,8 +58,8 @@
 
               <p class="text-start text-md-center">
                 
-                <p><strong>Location: {{swapitem.book.location}}</strong></p>
-                <p>Uploaded by: {{swapitem.book.user}}</p>
+                <p><strong>Location: {{item.book.location}}</strong></p>
+                <p>Uploaded by: {{item.book.user}}</p>
               </p>
       
             </div>
@@ -124,11 +124,10 @@
            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
             Total items:
            
-            <span> {{swap.get_cart_total}} </span>
+            <span> {{swap.get_cart_items}} </span>
           </li>
             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
               Total tokens:
-             
               <span> {{swap.get_cart_total}} </span>
             </li>
 
