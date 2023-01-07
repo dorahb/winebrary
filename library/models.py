@@ -54,7 +54,7 @@ class Swap (models.Model):
   user = models.OneToOneField(Profile, on_delete=models.SET_NULL,null=True, blank=True)
   date_swapped = models.DateTimeField(auto_now_add=True)
 
-
+    
   def __str__(self):
         return str(self.id)  
  

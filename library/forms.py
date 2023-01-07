@@ -1,4 +1,4 @@
-from .models import Profile, Book
+from .models import Profile, Book, ShippingAddress
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from django.contrib.auth.models import User
@@ -31,3 +31,9 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ("username", "email", "password1", "password2")
 
+class ShippingForm(forms.ModelForm):
+    class Meta:
+        model = ShippingAddress
+        fields = '__all__'
+        exclude = ('user', 'swap')
+        
